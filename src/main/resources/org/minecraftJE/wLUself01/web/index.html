@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Minecraft 白名单申请</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .info-text {
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .loading:after {
+            content: '...';
+            animation: dots 1s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Minecraft 白名单申请</h2>
+
+    <!-- 第一步：获取验证码 -->
+    <div id="step1">
+        <div class="form-group">
+            <label for="qqNumber">QQ号码:</label>
+            <input type="text" id="qqNumber" name="qqNumber" required>
+            <div class="info-text">我们将验证您是否已加入服务器QQ群</div>
+        </div>
+        <div class="form-group">
+            <label for="email">邮箱地址:</label>
+            <input type="email" id="email" name="email" required>
+            <div class="info-text">请输入您的邮箱地址，用于接收验证码</div>
+        </div>
+        <button onclick="requestCaptcha()">获取验证码</button>
+        <div id="captchaLoading" class="loading">正在发送验证码</div>
+    </div>
+
+    <!-- 第二步：提交申请 -->
+    <div id="step2" style="display: none;">
+        <div class="form-group">
+            <label for="playerName">游戏名称:</label>
+            <input type="text" id="playerName" name="playerName" required>
+            <div class="info-text">输入您的Minecraft游戏ID</div>
+        </div>
+        <div class="form-group">
+            <label for="captcha">验证码:</label>
+            <input type="text" id="captcha" name="captcha" required>
+            <div class="info-text">输入发送到您邮箱的验证码</div>
+        </div>
+        <button onclick="submitApplication()">提交申请</button>
+        <div id="submitLoading" class="loading">正在提交申请</div>
+    </div>
+
+    <div id="status" class="status" style="display: none;"></div>
+</div>
+
+<script>
+    function showStatus(message, isError) {
+        const status = document.getElementById('status');
+        status.textContent = message;
+        status.style.display = 'block';
+        status.className = 'status ' + (isError ? 'error' : 'success');
+    }
+
+    function showLoading(id, show) {
+        document.getElementById(id).style.display = show ? 'block' : 'none';
+    }
+
+    async function requestCaptcha() {
+        const qqNumber = document.getElementById('qqNumber').value;
+        const email = document.getElementById('email').value;
+
+        if (!qqNumber) {
+            showStatus('请输入QQ号码', true);
+            return;
+        }
+
+        if (!email) {
+            showStatus('请输入邮箱地址', true);
+            return;
+        }
+
+        showLoading('captchaLoading', true);
+
+        try {
+            const formData = new URLSearchParams();
+            formData.append('qqNumber', qqNumber);
+            formData.append('email', email);
+
+            const response = await fetch('/sendCaptcha', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString()
+            });
+
+            const data = await response.text();
+
+            if (response.ok) {
+                document.getElementById('step2').style.display = 'block';
+                showStatus(data, false);
+            } else {
+                showStatus(data, true);
+            }
+        } catch (error) {
+            showStatus('请求失败: ' + error.message, true);
+        } finally {
+            showLoading('captchaLoading', false);
+        }
+    }
+
+    async function submitApplication() {
+        const qqNumber = document.getElementById('qqNumber').value;
+        const playerName = document.getElementById('playerName').value;
+        const captcha = document.getElementById('captcha').value;
+
+        if (!qqNumber || !playerName || !captcha) {
+            showStatus('请填写所有必填字段', true);
+            return;
+        }
+
+        showLoading('submitLoading', true);
+
+        try {
+            const formData = new URLSearchParams();
+            formData.append('qqNumber', qqNumber);
+            formData.append('playerName', playerName);
+            formData.append('captcha', captcha);
+
+            const response = await fetch('/apply', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString()
+            });
+
+            const data = await response.text();
+
+            if (response.ok) {
+                showStatus('白名单申请成功！', false);
+                // 清空表单
+                document.getElementById('playerName').value = '';
+                document.getElementById('captcha').value = '';
+            } else {
+                showStatus(data, true);
+            }
+        } catch (error) {
+            showStatus('提交失败: ' + error.message, true);
+        } finally {
+            showLoading('submitLoading', false);
+        }
+    }
+</script>
+</body>
+</html>

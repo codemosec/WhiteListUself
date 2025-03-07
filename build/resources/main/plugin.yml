@@ -1,0 +1,15 @@
+name: WLUself01
+version: '1.0.0'
+main: org.minecraftJE.wLUself01.WLUself01
+api-version: '1.16'
+description: '通过QQ群验证和邮箱验证码确认用户身份，自动添加白名单'
+author: Mosec
+commands:
+  wlreload:
+    description: 重新加载插件配置
+    usage: /wlreload
+    permission: wluself01.reload
+permissions:
+  wluself01.reload:
+    description: 允许重新加载插件
+    default: op
