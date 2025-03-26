@@ -4,7 +4,7 @@
 ![Minecraft版本](https://img.shields.io/badge/Minecraft-1.21-green)
 ![开发框架](https://img.shields.io/badge/开发框架-Bukkit/Paper-orange)
 
-https://github.com/codemosec/WhiteListUself/blob/main/README-eng.md ENGLISH
+简体中文 | [ENGLISH](https://github.com/codemosec/WhiteListUself/blob/main/README-eng.md)
 ## 📋 简介
 
 WhiteListUself 是一个允许玩家通过网页自助申请白名单的 Minecraft 服务器插件。本插件基于 Bukkit/Paper 开发，适用于 Minecraft 1.21 版本，已在核心为 1.21.1-leaves 的服务器上成功测试运行。
