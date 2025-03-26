@@ -93,7 +93,7 @@ debug_mode: false
 - `email.host`: SMTP 服务器地址
 - `email.port`: SMTP 服务器端口
 - `email.username`: 邮箱用户名
-- `email.password`: 邮箱密码
+- `email.password`: SMTP授权码
 - `email.from`: 发件人信息
 - `email.subject`: 邮件主题
 
