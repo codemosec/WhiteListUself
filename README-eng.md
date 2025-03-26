@@ -6,6 +6,10 @@
 
 [简体中文](README.md) | English
 
+## Project Origins
+
+This project is based on [webwhitelist-for-minecraft](https://github.com/xiaoqiannb/webwhitelist-for-minecraft) created by xiaoqiannb. We have extended the original functionality with additional features including [list your major additions or changes].
+We express our gratitude to the original author for their valuable work that served as the foundation for this project.
 ## 📋 Introduction
 
 WhiteListUself is a Minecraft server plugin that allows players to apply for whitelist access through a web page. This plugin is developed based on Bukkit/Paper and is compatible with Minecraft 1.21. It has been successfully tested on servers running 1.21.1-leaves core.This plugin integrates with [mirai](https://github.com/project-mirai) to enable QQ group verification functionality.
