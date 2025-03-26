@@ -8,7 +8,7 @@
 
 ## Project Origins
 
-This project is based on [webwhitelist-for-minecraft](https://github.com/xiaoqiannb/webwhitelist-for-minecraft) created by xiaoqiannb. We have extended the original functionality with additional features including [list your major additions or changes].
+This project is based on [webwhitelist-for-minecraft](https://github.com/xiaoqiannb/webwhitelist-for-minecraft) created by xiaoqiannb. We have extended the original functionality with additional features.
 We express our gratitude to the original author for their valuable work that served as the foundation for this project.
 ## 📋 Introduction
 
